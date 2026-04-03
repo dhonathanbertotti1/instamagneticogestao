@@ -1,13 +1,632 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iNSTAMAGNÉTICO™ | Gestão de Alta Performance</title>
+    <meta name="description" content="Escala seu negócio local com estratégias de tráfego pago validadas por mais de 3 anos de experiência.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'gradient': 'gradient 8s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        gradient: {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-black text-white antialiased selection:bg-indigo-500/30;
+            }
+        }
+        @layer utilities {
+            .bg-grid {
+                background-image: 
+                    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+                background-size: 40px 40px;
+            }
+            .bg-grid-fade {
+                mask-image: radial-gradient(circle at center, black, transparent 80%);
+            }
+            .glass-card {
+                @apply bg-white/[0.02] backdrop-blur-xl border border-white/[0.05] shadow-2xl;
+            }
+            .glow-indigo {
+                box-shadow: 0 0 40px -10px rgba(79, 70, 229, 0.3);
+            }
+            .reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .reveal.active {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Mouse Glow -->
+    <div id="mouse-glow" class="pointer-events-none fixed inset-0 z-30 transition-opacity duration-500 opacity-0 md:opacity-100" style="background: radial-gradient(600px circle at 0px 0px, rgba(79, 70, 229, 0.08), transparent 80%);"></div>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-indigo-500 z-[60] w-0 transition-all duration-100"></div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-4 md:py-8">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-3 group cursor-pointer">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:rotate-12 transition-transform duration-300">
+                    <i data-lucide="rocket" class="text-white w-6 h-6 fill-white"></i>
+                </div>
+                <span class="text-xl font-black tracking-tighter text-white uppercase">iNSTAMAGNÉTICO<span class="text-indigo-500">™</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#problema" class="text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors relative group">
+                    O Problema
+                    <span class="absolute -bottom-1 left-0 w-0 h-px bg-indigo-500 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#metodo" class="text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors relative group">
+                    A Solução
+                    <span class="absolute -bottom-1 left-0 w-0 h-px bg-indigo-500 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#oferta" class="text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white transition-colors relative group">
+                    Planos
+                    <span class="absolute -bottom-1 left-0 w-0 h-px bg-indigo-500 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#oferta" class="bg-white text-black px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition-all hover:shadow-[0_0_20px_rgba(79,70,229,0.4)]">
+                    Solicitar Proposta
+                </a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-white">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-2xl border-b border-white/5 overflow-hidden transition-all duration-300">
+            <div class="flex flex-col p-8 gap-6">
+                <a href="#problema" class="text-lg font-bold text-gray-300 menu-link">O Problema</a>
+                <a href="#metodo" class="text-lg font-bold text-gray-300 menu-link">A Solução</a>
+                <a href="#oferta" class="text-lg font-bold text-gray-300 menu-link">Planos</a>
+                <a href="#oferta" class="bg-indigo-600 text-white px-6 py-4 rounded-2xl text-center font-black uppercase tracking-widest menu-link">Solicitar Proposta</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 md:pt-48 pb-20 md:pb-32 overflow-hidden min-h-screen flex items-center bg-black">
+        <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <div class="absolute inset-0 bg-grid bg-grid-fade opacity-20"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+        </div>
+        <canvas id="matrix-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-30 z-[1]"></canvas>
+
+        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+            <div class="reveal active">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em] mb-8">
+                    <i data-lucide="sparkles" class="w-3 h-3"></i> Gestão de Alta Performance
+                </div>
+                <h1 class="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] mb-8">
+                    ESCALA SEU <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 bg-[length:200%_auto] animate-gradient">NEGÓCIO LOCAL</span> <br>
+                    COM TRÁFEGO PAGO.
+                </h1>
+                <p class="text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto mb-12 leading-relaxed font-medium">
+                    Atraia clientes qualificados todos os dias com estratégias validadas por mais de 3 anos de experiência no mercado.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <a href="#oferta" class="group relative w-full sm:w-auto bg-white text-black px-10 py-5 rounded-2xl text-lg font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(255,255,255,0.15)] flex items-center justify-center gap-3">
+                        Ver Planos
+                        <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <div class="flex items-center gap-3 text-gray-500 text-xs font-bold uppercase tracking-widest">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-indigo-500"></i> 3+ Anos de Experiência
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Image & Floating Elements -->
+            <div class="mt-16 md:mt-24 relative mx-auto max-w-5xl reveal" style="transition-delay: 0.2s">
+                <!-- Floating Elements - Left -->
+                <div class="absolute -left-4 md:-left-20 top-1/4 z-20 space-y-4 scale-75 md:scale-100 hidden sm:block">
+                    <div class="glass-card px-6 py-4 rounded-2xl flex items-center gap-4 shadow-2xl shadow-indigo-500/10 animate-bounce" style="animation-duration: 4s">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                            <i data-lucide="target"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest">CTR Médio</p>
+                            <p class="text-lg text-white font-black">4.2%</p>
+                        </div>
+                    </div>
+                    <div class="glass-card px-6 py-4 rounded-2xl flex items-center gap-4 shadow-2xl shadow-purple-500/10 animate-bounce" style="animation-duration: 5s; animation-delay: 1s">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest">Seguidores Gerados</p>
+                            <p class="text-lg text-white font-black">1957+</p>
+                            <p class="text-[8px] text-indigo-400/60 font-bold uppercase tracking-tighter">Últimos 30 dias</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Elements - Right -->
+                <div class="absolute -right-4 md:-right-20 bottom-1/4 z-20 scale-75 md:scale-100 hidden sm:block">
+                    <div class="glass-card p-6 rounded-3xl shadow-2xl shadow-purple-500/10 animate-bounce" style="animation-duration: 6s">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                            <span class="text-[10px] text-gray-400 font-black uppercase tracking-widest">Campanhas Ativas</span>
+                        </div>
+                        <div class="flex items-end gap-2 h-20">
+                            <div class="w-3 bg-indigo-500 rounded-t-sm h-[40%]"></div>
+                            <div class="w-3 bg-indigo-500 rounded-t-sm h-[70%]"></div>
+                            <div class="w-3 bg-indigo-500 rounded-t-sm h-[45%]"></div>
+                            <div class="w-3 bg-indigo-500 rounded-t-sm h-[90%]"></div>
+                            <div class="w-3 bg-indigo-500 rounded-t-sm h-[65%]"></div>
+                            <div class="w-3 bg-indigo-500 rounded-t-sm h-[80%]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-[2rem] md:rounded-[2.5rem] p-1 md:p-2 overflow-hidden group">
+                    <div class="aspect-video rounded-[1.8rem] md:rounded-[2.25rem] overflow-hidden relative">
+                        <img src="https://raw.githubusercontent.com/dhonathanbertotti1/imagens-dhonathan-bertotti/refs/heads/main/Dhonathan%20.png" alt="Dhonathan Bertotti" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-1000" referrerpolicy="no-referrer">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section id="problema" class="py-20 md:py-32 bg-black relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                <div class="reveal">
+                    <span class="text-indigo-500 font-black uppercase tracking-[0.3em] text-xs mb-6 block">O Desafio</span>
+                    <h2 class="text-4xl md:text-6xl font-black text-white mb-10 tracking-tighter leading-[0.95]">
+                        POR QUE SUA <br>
+                        <span class="text-zinc-700">AGENDA AINDA</span> <br>
+                        ESTÁ VAZIA?
+                    </h2>
+                    <p class="text-gray-400 text-xl mb-12 leading-relaxed">
+                        Muitos negócios locais falham porque dependem exclusivamente do boca a boca ou de postagens orgânicas que ninguém vê. Sem uma estratégia de tráfego, você está deixando dinheiro na mesa.
+                    </p>
+                    
+                    <div class="grid gap-6">
+                        <div class="flex items-center gap-5 p-6 rounded-3xl bg-white/[0.02] border border-white/[0.05] group hover:bg-white/[0.04] transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </div>
+                            <span class="text-gray-300 font-bold text-lg">Dependência total do boca a boca.</span>
+                        </div>
+                        <div class="flex items-center gap-5 p-6 rounded-3xl bg-white/[0.02] border border-white/[0.05] group hover:bg-white/[0.04] transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </div>
+                            <span class="text-gray-300 font-bold text-lg">Postagens orgânicas com zero alcance.</span>
+                        </div>
+                        <div class="flex items-center gap-5 p-6 rounded-3xl bg-white/[0.02] border border-white/[0.05] group hover:bg-white/[0.04] transition-colors">
+                            <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </div>
+                            <span class="text-gray-300 font-bold text-lg">Falta de previsibilidade de novas vendas.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mt-12 lg:mt-0 reveal" style="transition-delay: 0.2s">
+                    <div class="absolute inset-0 bg-indigo-600/20 blur-[100px] -z-10"></div>
+                    <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-16 text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></div>
+                        <span class="text-indigo-400 font-black uppercase tracking-[0.4em] text-[10px] mb-8 block">Mercado 2025/26</span>
+                        <blockquote class="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none mb-12">
+                            "QUEM NÃO INVESTE EM TRÁFEGO, NÃO É VISTO."
+                        </blockquote>
+                        <div class="flex items-center justify-center gap-4 mb-12">
+                            <div class="h-px w-12 bg-white/10"></div>
+                            <i data-lucide="mouse-pointer-2" class="text-indigo-500 w-6 h-6"></i>
+                            <div class="h-px w-12 bg-white/10"></div>
+                        </div>
+                        <h3 class="text-xl font-black text-white mb-6 uppercase tracking-widest">O SEGREDO É A PREVISIBILIDADE.</h3>
+                        <p class="text-gray-400 leading-relaxed font-medium">
+                            Nossa gestão foca em criar um fluxo constante de novos clientes qualificados, permitindo que você foque no que faz de melhor: atender seus clientes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="metodo" class="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 md:mb-24 reveal">
+                <span class="text-indigo-500 font-black uppercase tracking-[0.4em] text-xs mb-6 block">Metodologia iNSTAMAGNÉTICO</span>
+                <h2 class="text-4xl md:text-7xl font-black text-white tracking-tighter">O QUE ENTREGAMOS</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <!-- Feature 1 -->
+                <div class="glass-card p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] group relative overflow-hidden reveal" style="transition-delay: 0.1s">
+                    <div class="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-indigo-500 mb-8 group-hover:scale-110 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-500">
+                        <i data-lucide="search"></i>
+                    </div>
+                    <h4 class="text-2xl font-black text-white mb-4 tracking-tight uppercase">Estratégia Personalizada</h4>
+                    <p class="text-gray-400 leading-relaxed font-medium">Análise profunda do seu nicho e concorrentes para criar um plano de ação focado em conversão.</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="glass-card p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] group relative overflow-hidden reveal" style="transition-delay: 0.2s">
+                    <div class="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-indigo-500 mb-8 group-hover:scale-110 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-500">
+                        <i data-lucide="video"></i>
+                    </div>
+                    <h4 class="text-2xl font-black text-white mb-4 tracking-tight uppercase">Estratégia Semi Dark</h4>
+                    <p class="text-gray-400 leading-relaxed font-medium">Crescimento orgânico acelerado com conteúdos onde você não precisa aparecer, focando 100% na atração.</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="glass-card p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] group relative overflow-hidden reveal" style="transition-delay: 0.3s">
+                    <div class="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-indigo-500 mb-8 group-hover:scale-110 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-500">
+                        <i data-lucide="zap"></i>
+                    </div>
+                    <h4 class="text-2xl font-black text-white mb-4 tracking-tight uppercase">Gestão Diária</h4>
+                    <p class="text-gray-400 leading-relaxed font-medium">Otimização constante das campanhas para garantir o menor custo por lead possível.</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="glass-card p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] group relative overflow-hidden reveal" style="transition-delay: 0.4s">
+                    <div class="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-indigo-500 mb-8 group-hover:scale-110 group-hover:bg-indigo-500 group-hover:text-white transition-all duration-500">
+                        <i data-lucide="line-chart"></i>
+                    </div>
+                    <h4 class="text-2xl font-black text-white mb-4 tracking-tight uppercase">Relatórios Mensais</h4>
+                    <p class="text-gray-400 leading-relaxed font-medium">Transparência total com dados reais sobre investimento, alcance e retorno financeiro.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="py-20 md:py-32 bg-black relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 md:mb-24 reveal">
+                <h2 class="text-4xl md:text-7xl font-black text-white tracking-tighter mb-6">RESULTADOS REAIS</h2>
+                <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">O impacto direto na escala do seu negócio.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <!-- ROI Card -->
+                <div class="md:col-span-2 glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-between reveal">
+                    <div>
+                        <span class="text-indigo-500 font-black uppercase tracking-widest text-[10px] mb-4 block">Performance Metric</span>
+                        <h3 class="text-4xl md:text-6xl font-black text-white tracking-tighter mb-6">ROI MÉDIO</h3>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <p class="text-5xl md:text-8xl font-black text-white tracking-tighter">12.5x</p>
+                        <div class="w-16 h-16 md:w-24 md:h-24 bg-indigo-500/10 rounded-full flex items-center justify-center">
+                            <i data-lucide="trending-up" class="text-indigo-500 w-8 h-8 md:w-10 md:h-10"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leads Card -->
+                <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-between bg-indigo-600 reveal" style="transition-delay: 0.1s">
+                    <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-widest mb-8">Leads Qualificados</h3>
+                    <p class="text-5xl md:text-6xl font-black text-white tracking-tighter">+850</p>
+                    <div class="mt-8 flex -space-x-4">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-indigo-600 bg-zinc-800 overflow-hidden"><img src="https://i.pravatar.cc/150?u=11" alt="User"></div>
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-indigo-600 bg-zinc-800 overflow-hidden"><img src="https://i.pravatar.cc/150?u=12" alt="User"></div>
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-indigo-600 bg-zinc-800 overflow-hidden"><img src="https://i.pravatar.cc/150?u=13" alt="User"></div>
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-indigo-600 bg-white text-black flex items-center justify-center text-[10px] font-black">+100</div>
+                    </div>
+                </div>
+
+                <!-- Experience Card -->
+                <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 reveal" style="transition-delay: 0.2s">
+                    <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-widest mb-4">EXPERIÊNCIA</h3>
+                    <p class="text-5xl md:text-7xl font-black text-indigo-500 tracking-tighter">3+ ANOS</p>
+                    <p class="text-gray-500 mt-4 text-sm font-bold">Estratégias validadas em diversos nichos locais.</p>
+                </div>
+
+                <!-- Growth Card -->
+                <div class="md:col-span-2 glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 flex items-center gap-6 md:gap-12 reveal" style="transition-delay: 0.3s">
+                    <div class="hidden sm:block w-24 h-24 md:w-32 md:h-32 bg-white/5 rounded-2xl md:rounded-3xl flex items-center justify-center">
+                        <i data-lucide="bar-chart-3" class="text-white w-12 h-12 md:w-16 md:h-16"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl md:text-3xl font-black text-white tracking-tighter mb-4 uppercase">CRESCIMENTO ESCALÁVEL</h3>
+                        <p class="text-gray-400 text-base md:text-lg leading-relaxed">Não apenas cliques, mas clientes reais que entram em contato prontos para fechar negócio.</p>
+                    </div>
+                </div>
+
+                <!-- Organic Results Card -->
+                <div class="md:col-span-3 glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 overflow-hidden reveal" style="transition-delay: 0.4s">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+                        <div>
+                            <h3 class="text-3xl md:text-5xl font-black text-white tracking-tighter uppercase">RESULTADOS ORGÂNICOS</h3>
+                            <p class="text-gray-500 font-bold mt-2">Escala massiva sem investimento em anúncios.</p>
+                        </div>
+                        <div class="px-6 py-2 bg-indigo-500/10 rounded-full border border-indigo-500/20 text-indigo-400 text-xs font-black uppercase tracking-widest">
+                            Estratégia Semi Dark
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div class="rounded-3xl overflow-hidden border border-white/5 group relative aspect-[4/3] lg:aspect-auto">
+                            <img src="https://raw.githubusercontent.com/dhonathanbertotti1/imagens-dhonathan-bertotti/refs/heads/main/Design%20sem%20nome%20(1).png" alt="Resultado Orgânico" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                        </div>
+                        
+                        <div class="space-y-8">
+                            <div class="p-8 bg-white/[0.02] rounded-[2rem] border border-white/[0.05] relative overflow-hidden group">
+                                <p class="text-gray-300 text-lg leading-relaxed italic mb-8">
+                                    "A estratégia semi dark permitiu um alcance de milhões de visualizações sem gastar um único real em tráfego pago, atraindo uma audiência extremamente qualificada."
+                                </p>
+                                <div class="flex flex-wrap gap-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                                            <i data-lucide="trending-up" class="text-white w-6 h-6"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-black uppercase tracking-widest text-[10px]">Alcance Viral</p>
+                                            <p class="text-indigo-400 font-black text-xl">+1.2M Views</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/20">
+                                            <i data-lucide="users" class="text-white w-6 h-6"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-white font-black uppercase tracking-widest text-[10px]">Conversão Orgânica</p>
+                                            <p class="text-purple-400 font-black text-xl">+15% CTR</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="oferta" class="py-20 md:py-32 bg-zinc-950 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 md:mb-20 reveal">
+                <span class="text-indigo-500 font-black uppercase tracking-[0.4em] text-xs mb-6 block">Investimento & Escala</span>
+                <h2 class="text-4xl md:text-7xl font-black text-white tracking-tighter">PLANOS DE GESTÃO</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 md:gap-8 items-start">
+                <!-- Plan 1 -->
+                <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 relative overflow-hidden flex flex-col h-full reveal" style="transition-delay: 0.1s">
+                    <div class="mb-10">
+                        <span class="font-black uppercase tracking-widest text-[10px] mb-4 block text-gray-500">Gestão iNSTAMAGNÉTICO</span>
+                        <h3 class="text-2xl md:text-3xl font-black text-white tracking-tighter mb-4 uppercase">Plano Essencial</h3>
+                        <p class="text-gray-400 text-sm font-medium leading-relaxed">Ideal para quem está começando e quer validar o canal de vendas.</p>
+                    </div>
+                    <div class="mb-10">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-xl font-black text-white">R$</span>
+                            <span class="text-5xl md:text-6xl font-black text-white tracking-tighter">800</span>
+                            <span class="text-gray-500 font-black uppercase tracking-widest text-[10px]">/ mês</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mb-4 flex-grow">
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Gestão de 1 Canal</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Relatório Mensal</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Suporte via Email</span></div>
+                    </div>
+                </div>
+
+                <!-- Plan 2 (Highlighted) -->
+                <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 relative overflow-hidden flex flex-col h-full border-indigo-500/50 shadow-[0_0_40px_rgba(79,70,229,0.2)] reveal" style="transition-delay: 0.2s">
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
+                    <div class="mb-10">
+                        <span class="font-black uppercase tracking-widest text-[10px] mb-4 block text-indigo-400">Mais Popular</span>
+                        <h3 class="text-2xl md:text-3xl font-black text-white tracking-tighter mb-4 uppercase">Plano Crescimento</h3>
+                        <p class="text-gray-400 text-sm font-medium leading-relaxed">O equilíbrio perfeito entre investimento e escala acelerada.</p>
+                    </div>
+                    <div class="mb-10">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-xl font-black text-white">R$</span>
+                            <span class="text-5xl md:text-6xl font-black text-white tracking-tighter">1.400</span>
+                            <span class="text-gray-500 font-black uppercase tracking-widest text-[10px]">/ mês</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mb-4 flex-grow">
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Meta + Google Ads</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Relatórios Quinzenais</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Suporte via WhatsApp</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Estratégia Semi Dark</span></div>
+                    </div>
+                </div>
+
+                <!-- Plan 3 -->
+                <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 relative overflow-hidden flex flex-col h-full reveal" style="transition-delay: 0.3s">
+                    <div class="mb-10">
+                        <span class="font-black uppercase tracking-widest text-[10px] mb-4 block text-gray-500">Gestão iNSTAMAGNÉTICO</span>
+                        <h3 class="text-2xl md:text-3xl font-black text-white tracking-tighter mb-4 uppercase">Plano iNSTAMAGNÉTICO</h3>
+                        <p class="text-gray-400 text-sm font-medium leading-relaxed">Dominação total de mercado com estratégias avançadas.</p>
+                    </div>
+                    <div class="mb-10">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-xl font-black text-white">R$</span>
+                            <span class="text-5xl md:text-6xl font-black text-white tracking-tighter">2.500</span>
+                            <span class="text-gray-500 font-black uppercase tracking-widest text-[10px]">/ mês</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4 mb-4 flex-grow">
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Gestão Multicanal</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Suporte VIP 24/7</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Criação de Landing Page</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Note -->
+            <div class="mt-20 flex flex-col md:flex-row items-center gap-12 text-left glass-card p-10 md:p-12 rounded-[3rem] reveal">
+                <div class="w-24 h-24 md:w-32 md:h-32 bg-indigo-600 rounded-[2rem] flex items-center justify-center flex-shrink-0 shadow-2xl shadow-indigo-500/20">
+                    <i data-lucide="shield-check" class="text-white w-12 h-12 md:w-16 md:h-16"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl md:text-2xl font-black text-white mb-4 uppercase tracking-widest">ENTRADA GRADUAL E SEGURA</h3>
+                    <p class="text-gray-400 text-base md:text-lg leading-relaxed font-medium">
+                        Recomendamos uma verba inicial de R$ 800/mês em anúncios para testar e validar o público antes de escalar. Oferecemos 7 dias de garantia sobre nossa metodologia de gestão.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 bg-black border-t border-white/5 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center">
+                        <i data-lucide="rocket" class="text-white w-6 h-6 fill-white"></i>
+                    </div>
+                    <span class="text-xl font-black tracking-tighter text-white uppercase">iNSTAMAGNÉTICO™</span>
+                </div>
+                
+                <div class="flex gap-12">
+                    <a href="#" class="text-gray-500 hover:text-white text-xs font-black uppercase tracking-widest transition-colors">Termos</a>
+                    <a href="#" class="text-gray-500 hover:text-white text-xs font-black uppercase tracking-widest transition-colors">Privacidade</a>
+                    <a href="#" class="text-gray-500 hover:text-white text-xs font-black uppercase tracking-widest transition-colors">Suporte</a>
+                </div>
+            </div>
+            
+            <div class="text-center text-gray-700 text-[10px] font-black uppercase tracking-[0.5em]">
+                <p>Copyright 2026 © Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mouse Glow Effect
+        const mouseGlow = document.getElementById('mouse-glow');
+        document.addEventListener('mousemove', (e) => {
+            mouseGlow.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(79, 70, 229, 0.08), transparent 80%)`;
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-black/60', 'backdrop-blur-xl', 'border-b', 'border-white/5');
+                navbar.classList.remove('py-8');
+                navbar.classList.add('py-4');
+            } else {
+                navbar.classList.remove('bg-black/60', 'backdrop-blur-xl', 'border-b', 'border-white/5');
+                navbar.classList.add('py-8');
+                navbar.classList.remove('py-4');
+            }
+
+            // Scroll Progress
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + "%";
+        });
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close menu on link click
+        document.querySelectorAll('.menu-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Matrix Effect
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const fontSize = 16;
+        const columns = Math.ceil(canvas.width / fontSize);
+        const drops = Array(columns).fill(0).map(() => Math.random() * -100);
+        const chars = "01010101010101010101";
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#fff";
+            ctx.font = `bold ${fontSize}px monospace`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
+        // Reveal on Scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
