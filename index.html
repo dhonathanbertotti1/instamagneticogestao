@@ -131,7 +131,7 @@
             <div class="absolute inset-0 bg-grid bg-grid-fade opacity-20"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
         </div>
-        <canvas id="matrix-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-30 z-[1]"></canvas>
+        <canvas class="matrix-canvas absolute inset-0 w-full h-full pointer-events-none opacity-30 z-[1]"></canvas>
 
         <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
             <div class="reveal active">
@@ -318,6 +318,7 @@
 
     <!-- Results Section -->
     <section class="py-20 md:py-32 bg-black relative overflow-hidden">
+        <canvas class="matrix-canvas absolute inset-0 w-full h-full pointer-events-none opacity-20 z-[1]"></canvas>
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16 md:mb-24 reveal">
                 <h2 class="text-4xl md:text-7xl font-black text-white tracking-tighter mb-6">RESULTADOS REAIS</h2>
@@ -341,7 +342,7 @@
 
                 <!-- Leads Card -->
                 <div class="glass-card rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 flex flex-col justify-between bg-indigo-600 reveal" style="transition-delay: 0.1s">
-                    <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-widest mb-8">Leads Qualificados</h3>
+                    <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-widest mb-8">Leads Mensalmente</h3>
                     <p class="text-5xl md:text-6xl font-black text-white tracking-tighter">+850</p>
                     <div class="mt-8 flex -space-x-4">
                         <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border-4 border-indigo-600 bg-zinc-800 overflow-hidden"><img src="https://i.pravatar.cc/150?u=11" alt="User"></div>
@@ -442,11 +443,13 @@
                             <span class="text-5xl md:text-6xl font-black text-white tracking-tighter">800</span>
                             <span class="text-gray-500 font-black uppercase tracking-widest text-[10px]">/ mês</span>
                         </div>
+                        <p class="text-[10px] text-indigo-400 font-black uppercase tracking-widest mt-2">Contrato mín. 3 meses</p>
                     </div>
                     <div class="space-y-4 mb-4 flex-grow">
-                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Gestão de 1 Canal</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Gestão de 1 Canal (Meta ou Google)</span></div>
                         <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Relatório Mensal</span></div>
                         <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Suporte via Email</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Configuração de Pixel/API</span></div>
                     </div>
                 </div>
 
@@ -464,11 +467,14 @@
                             <span class="text-5xl md:text-6xl font-black text-white tracking-tighter">1.400</span>
                             <span class="text-gray-500 font-black uppercase tracking-widest text-[10px]">/ mês</span>
                         </div>
+                        <p class="text-[10px] text-indigo-400 font-black uppercase tracking-widest mt-2">Contrato mín. 3 meses</p>
                     </div>
                     <div class="space-y-4 mb-4 flex-grow">
-                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Meta + Google Ads</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Gestão de 2 Canais (Meta + Google)</span></div>
                         <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Relatórios Quinzenais</span></div>
                         <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Suporte via WhatsApp</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Análise de Criativos</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Otimização de Funil</span></div>
                         <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Estratégia Semi Dark</span></div>
                     </div>
                 </div>
@@ -486,10 +492,14 @@
                             <span class="text-5xl md:text-6xl font-black text-white tracking-tighter">2.500</span>
                             <span class="text-gray-500 font-black uppercase tracking-widest text-[10px]">/ mês</span>
                         </div>
+                        <p class="text-[10px] text-indigo-400 font-black uppercase tracking-widest mt-2">Contrato mín. 3 meses</p>
                     </div>
                     <div class="space-y-4 mb-4 flex-grow">
                         <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Gestão Multicanal</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Relatórios Semanais</span></div>
                         <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Suporte VIP 24/7</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Consultoria de Vendas</span></div>
+                        <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Estratégia Semi Dark</span></div>
                         <div class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-500"></i><span class="text-gray-300 text-sm">Criação de Landing Page</span></div>
                     </div>
                 </div>
@@ -579,37 +589,55 @@
         });
 
         // Matrix Effect
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
+        const canvases = document.querySelectorAll('.matrix-canvas');
+        const matrixData = [];
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        function initMatrix(canvas) {
+            const ctx = canvas.getContext('2d');
+            const fontSize = 16;
+            let columns = Math.ceil(canvas.width / fontSize);
+            let drops = Array(columns).fill(0).map(() => Math.random() * -100);
+            
+            return { canvas, ctx, fontSize, columns, drops };
         }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
 
-        const fontSize = 16;
-        const columns = Math.ceil(canvas.width / fontSize);
-        const drops = Array(columns).fill(0).map(() => Math.random() * -100);
+        function resizeCanvases() {
+            canvases.forEach((canvas, index) => {
+                canvas.width = canvas.parentElement.offsetWidth;
+                canvas.height = canvas.parentElement.offsetHeight;
+                matrixData[index] = initMatrix(canvas);
+            });
+        }
+
+        canvases.forEach((canvas, index) => {
+            matrixData[index] = initMatrix(canvas);
+        });
+
+        resizeCanvases();
+        window.addEventListener('resize', resizeCanvases);
+
         const chars = "01010101010101010101";
 
         function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            matrixData.forEach(data => {
+                const { ctx, canvas, fontSize, drops } = data;
+                
+                ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = "#fff";
-            ctx.font = `bold ${fontSize}px monospace`;
+                ctx.fillStyle = "#fff";
+                ctx.font = `bold ${fontSize}px monospace`;
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
                 }
-                drops[i]++;
-            }
+            });
         }
         setInterval(drawMatrix, 33);
 
